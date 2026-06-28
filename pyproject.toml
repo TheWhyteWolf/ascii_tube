@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ascii-tube"
+version = "0.1.0"
+description = "Render a YouTube or local video as ASCII in the terminal."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["numpy"]
+
+[project.scripts]
+ascii-tube = "ascii_tube:main"
+
+[tool.setuptools]
+py-modules = ["ascii_tube"]
