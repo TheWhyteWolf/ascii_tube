@@ -9,6 +9,15 @@ ascii_tube.py <URL|file> [options]
 
 Install as a command (`ascii-tube`) with `pip install .` (or `pipx install .`).
 
+## Web app (browser)
+
+A zero-install **browser build** of `ascii_cam` — live webcam, video file, or
+screen share to ASCII, with the olive-green theme, historic display palettes,
+several gradient maps, and cool-retro-term-style CRT effects, running entirely
+client-side — lives in its own repository:
+**[ascii-cam](https://github.com/TheWhyteWolf/ascii-cam)**
+(deployed to GitHub Pages).
+
 ## Colour
 
 Output is monochrome by default. Add colour with:
@@ -73,6 +82,49 @@ apart over time.
 
 yt-dlp, ffmpeg (+ ffprobe), numpy; `ffplay` is additionally required only when
 `--audio` is used.
+
+## Live webcam (ascii_cam)
+
+`ascii_cam.py` is the live-capture sibling: it renders a webcam feed as ASCII in
+real time, sharing all of ascii_tube's rendering (ramps, colour modes, dither,
+half-block, `--diff`). Frames come straight off the camera via ffmpeg's platform
+capture backend (`v4l2` on Linux, `avfoundation` on macOS, `dshow` on Windows).
+
+> There is also a zero-install **browser build** of ascii_cam with retro palettes
+> and CRT effects — see the [ascii-cam](https://github.com/TheWhyteWolf/ascii-cam) repo.
+
+```
+ascii_cam.py [options]              # default camera, monochrome
+ascii_cam.py --color halfblock      # a colour terminal mirror
+ascii_cam.py --list                 # show available capture devices
+ascii_cam.py --test                 # synthetic test pattern (no webcam needed)
+```
+
+Install the `ascii-cam` command alongside `ascii-tube` with `pip install .`.
+
+The colour/tuning flags (`--color`, `--dither`, `--brightness`, `--contrast`,
+`--gamma`, `--invert`, `--long`, `--chars`, `--width`, `--char-aspect`,
+`--diff`) behave exactly as they do for ascii_tube. Capture-specific options:
+
+```
+-d, --device DEV     # camera (default /dev/video0; e.g. 0 on macOS)
+--fps N              # target capture/render rate (default 30)
+--video-size WxH     # request a capture resolution, e.g. 640x480
+--no-mirror          # don't horizontally mirror (mirroring is on by default)
+--frames N           # stop after N frames (1 = a single snapshot)
+```
+
+Because the feed is live there is no seeking, looping or start offset. To keep
+latency low the loop always renders the **newest** available frame, dropping any
+backlog. Interactive controls in a terminal:
+
+| key            | action               |
+|----------------|----------------------|
+| `space`        | freeze / resume      |
+| `m`            | toggle mirror        |
+| `q` / `Esc`    | quit                 |
+
+Dependencies: ffmpeg (+ ffprobe), numpy.
 
 ## Tests
 

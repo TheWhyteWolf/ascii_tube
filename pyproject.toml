@@ -12,6 +12,7 @@ dependencies = ["numpy"]
 
 [project.scripts]
 ascii-tube = "ascii_tube:main"
+ascii-cam = "ascii_cam:main"
 
 [tool.setuptools]
-py-modules = ["ascii_tube"]
+py-modules = ["ascii_tube", "ascii_cam"]

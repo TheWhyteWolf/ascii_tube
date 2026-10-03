@@ -155,7 +155,7 @@ def probe_url(url, fmt):
     """(width, height, fps) for a remote URL via yt-dlp metadata. Best-effort."""
     try:
         out = subprocess.run(
-            ["yt-dlp", "-f", fmt, "--no-warnings", "--skip-download",
+            ["yt-dlp", "-f", fmt, "--no-warnings", "--no-playlist", "--skip-download",
              "--print", "%(width)s %(height)s %(fps)s", url],
             capture_output=True, text=True, timeout=60,
         )
@@ -221,7 +221,7 @@ def start_stream(input_, fmt, cols, decode_rows, fps, is_file, pix_fmt, position
     else:
         ff_cmd += ["-i", "pipe:0"]
         ytdlp = subprocess.Popen(
-            ["yt-dlp", "-q", "--no-warnings", "-f", fmt, "-o", "-", input_],
+            ["yt-dlp", "-q", "--no-warnings", "--no-playlist", "-f", fmt, "-o", "-", input_],
             stdout=subprocess.PIPE, stderr=errf,
         )
     ff_cmd += ["-an", "-vf", vf, "-pix_fmt", pix_fmt, "-f", "rawvideo", "pipe:1"]
@@ -253,7 +253,7 @@ def start_audio(input_, fmt_audio, is_file, position=0.0):
         )
         return [player]
     ytdlp_a = subprocess.Popen(
-        ["yt-dlp", "-q", "--no-warnings", "-f", fmt_audio, "-o", "-", input_],
+        ["yt-dlp", "-q", "--no-warnings", "--no-playlist", "-f", fmt_audio, "-o", "-", input_],
         stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
     )
     player = subprocess.Popen(
